@@ -77,7 +77,9 @@ export default class UpdateBlog extends Component {
       })
       .catch(err => {
         console.log("error", err);
-      });
+      })
+      .then((window.location.href = "/blogs"));
+
     console.log(this.state);
   }
   render() {
