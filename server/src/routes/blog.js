@@ -44,6 +44,7 @@ router.put("/:id", (req, res) => {
   let id = req.params.id;
   let title = req.body.title;
   let content = req.body.content;
+  console.log(req.body);
   updateBlog(id, title, content).then(results => {
     res.send(results);
   });

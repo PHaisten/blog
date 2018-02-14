@@ -1,6 +1,10 @@
 import React, { Component } from "react";
 import { render } from "react-dom";
 
+const formStyle = {
+  marginBottom: "5em"
+};
+
 export default class BlogInput extends Component {
   constructor(props) {
     super(props);
@@ -42,7 +46,11 @@ export default class BlogInput extends Component {
   }
   render() {
     return (
-      <form className="form col-md-6 mx-auto mt-4 py-4 w-50" id="form">
+      <form
+        className="form col-md-6 mx-auto mt-4 py-4 w-50"
+        style={formStyle}
+        id="form"
+      >
         <h2 id="post-h">Create a Blog Post</h2>
         <input
           type="text"

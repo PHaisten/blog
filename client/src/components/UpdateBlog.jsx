@@ -1,35 +1,63 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 
+const formStyle = {
+  backgroundColor: "whitesmoke",
+  borderRadius: "0.5%",
+  marginBottom: "5em"
+};
+
+const submitStyle = {
+  color: "rgb(204, 77, 3)"
+};
+
 export default class UpdateBlog extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      blog: {}
+      blogPost: {}
     };
   }
 
   handleInputChange1(value) {
     this.setState({
-      blog: {
-        title: value
+      blogPost: {
+        title: value,
+        content: this.state.blogPost.content
       }
     });
   }
   handleInputChange2(value) {
     this.setState({
-      blog: {
+      blogPost: {
+        title: this.state.blogPost.title,
         content: value
       }
     });
   }
+
+  componentWillMount() {
+    document.body.style.backgroundImage = `url(
+      "https://static.pexels.com/photos/7101/wood-coffee-iphone-notebook.jpg"
+    )`;
+    document.body.style.backgroundRepeat = "no-repeat";
+    document.body.style.backgroundAttachment = "fixed";
+    document.body.style.imageRendering = "optimizeQuality";
+    document.body.style.backgroundSize = "70em";
+    document.body.style.backgroundPosition = "bottom right";
+  }
+
+  componentWillUnmount() {
+    document.body.style.backgroundImage = null;
+  }
+
   componentDidMount() {
     fetch("http://localhost:3000/api/blog/" + this.props.match.params.id)
       .then(response => {
         return response.json();
       })
       .then(data => {
-        this.setState({ blog: data });
+        this.setState({ blogPost: data });
       });
   }
   handleClick() {
@@ -37,8 +65,8 @@ export default class UpdateBlog extends Component {
     fetch("http://localhost:3000/api/blog/" + this.props.match.params.id, {
       method: "put",
       body: JSON.stringify({
-        title: this.state.blog.title,
-        content: this.state.chirp.content
+        title: this.state.blogPost.title,
+        content: this.state.blogPost.content
       }),
       headers: new Headers({
         "Content-Type": "application/json"
@@ -54,14 +82,17 @@ export default class UpdateBlog extends Component {
   }
   render() {
     return (
-      <form className="form col-md-6 mx-auto mt-4 py-4 w-50" id="form">
+      <form
+        className="form col-md-6 mx-auto mt-4 py-4 w-50"
+        style={formStyle}
+        id="form"
+      >
         <input
           type="text"
           className="form-control"
           id="input-field"
-          value={this.state.text}
+          value={this.state.blogPost.title}
           onChange={event => this.handleInputChange1(event.target.value)}
-          placeholder={this.state.blog.title}
         />
         <br />
         <textarea
@@ -69,12 +100,12 @@ export default class UpdateBlog extends Component {
           rows="10"
           className="form-control mt-4"
           id="input-field1"
-          value={this.state.text}
-          placeholder={this.state.blog.content}
+          value={this.state.blogPost.content}
           onChange={event => this.handleInputChange2(event.target.value)}
         />
         <button
           type="button"
+          style={submitStyle}
           className="btn btn-light mt-3 justify-content-center"
           id="post-b"
           onClick={() => this.handleClick()}
